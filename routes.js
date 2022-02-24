@@ -13,11 +13,11 @@ router.post("/authenticate", authController.authenticateUser);
 
 // @request: POST "/api/follow/{id}"
 // @desc: authenticated user would follow user with {id}
-router.post("/follow/:id", userController.followUser);
+router.post("/follow/:id", authMiddleware, userController.followUser);
 
 // @request: POST "/api/unfollow/{id}"
 // @desc: authenticated user would unfollow user with {id}
-router.post("/unfollow/:id", userController.unfollowUser);
+router.post("/unfollow/:id", authMiddleware, userController.unfollowUser);
 
 // @request: GET "/api/user"
 // @desc: should authenticate the request and return the respective user profile
@@ -41,16 +41,18 @@ router.get("/all_posts", authMiddleware, postController.getAllPosts);
 
 // @request: POST "/api/like/{id}"
 // @desc: like the post with {id} by the authenticated user
-router.post("/like/:id", postController.likePost);
+router.post("/like/:id", authMiddleware, postController.likePost);
 
 // @request: POST "/api/unlike/{id}"
 // @desc: unlike the post with {id} by the authenticated user
-router.post("/unlike/:id", postController.unlikePost);
+router.post("/unlike/:id", authMiddleware, postController.unlikePost);
 
 // @request: POST "/api/comment/{id}"
 // @desc: add comment for post with {id} by the authenticated user
 router.post("/comments/:id", authMiddleware, commentController.addComment);
 
+// @request: POST "/api/register"
+// @desc: register new user
 router.post("/register", authController.registerUser);
 
 module.exports = router;

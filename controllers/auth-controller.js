@@ -29,7 +29,7 @@ class AuthController {
 			const token = tokenService.generateToken(payload);
 
 			res.cookie("token", token, {
-				maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+				maxAge: 2 * 24 * 60 * 60 * 1000, // 2 day
 				httpOnly: true
 			});
 

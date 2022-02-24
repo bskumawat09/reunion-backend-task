@@ -1,4 +1,5 @@
 const commentService = require("../services/comment-service");
+const likeService = require("../services/like-service");
 const postService = require("../services/post-service");
 
 class PostController {
@@ -82,9 +83,58 @@ class PostController {
 		}
 	}
 
-	likePost(req, res) {}
+	async likePost(req, res) {
+		try {
+			const { id } = req.params;
+			const { user_id } = req.user;
 
-	unlikePost(req, res) {}
+			const post = await postService.findPostById(id);
+			if (!post) {
+				throw new Error("post not found");
+			}
+
+			const response = await likeService.like(id, user_id);
+
+			res.json({
+				status: "success",
+				message: "liked the post",
+				liked_post: response
+			});
+		} catch (err) {
+			res.json({
+				status: "error",
+				message: err.message
+			});
+		}
+	}
+
+	async unlikePost(req, res) {
+		try {
+			const { id } = req.params;
+			const { user_id } = req.user;
+
+			const post = await postService.findPostById(id);
+			if (!post) {
+				throw new Error("post not found");
+			}
+
+			const response = await likeService.unlike(id, user_id);
+			if (!response) {
+				throw new Error("could not unlike");
+			}
+
+			res.json({
+				status: "success",
+				message: "unliked the post",
+				unliked_post: response
+			});
+		} catch (err) {
+			res.json({
+				status: "error",
+				message: err.message
+			});
+		}
+	}
 }
 
 module.exports = new PostController();

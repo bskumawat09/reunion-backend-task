@@ -1,12 +1,13 @@
 const db = require("../db");
 
 class UserService {
-	async findUser({ user_id, username }) {
+	async findUser({ id, username }) {
 		let result;
-		if (user_id) {
-			const { rows } = await db.query("SELECT * FROM users WHERE id = $1", [
-				user_id
-			]);
+		if (id) {
+			const { rows } = await db.query(
+				"SELECT users.id, username, followers, password FROM users LEFT JOIN (SELECT followee_id AS uid, COUNT(follower_id) AS followers FROM follows GROUP BY uid) follows ON follows.uid = users.id WHERE users.id = $1",
+				[id]
+			);
 			result = rows[0];
 		} else if (username) {
 			const { rows } = await db.query(

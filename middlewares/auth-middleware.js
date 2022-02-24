@@ -15,7 +15,7 @@ module.exports = async function (req, res, next) {
 		}
 		console.log(decodedToken);
 		// if the user associated with token no longer exist
-		const user = await userService.findUser({ user_id: decodedToken.user_id });
+		const user = await userService.findUser({ id: decodedToken.user_id });
 		if (!user) {
 			throw new Error("user no longer exist");
 		}

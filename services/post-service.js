@@ -8,10 +8,11 @@ class PostService {
 		);
 		return rows[0];
 	}
-
+	// "SELECT * FROM posts LEFT JOIN (SELECT pid, COUNT(*) AS likes_count FROM likes GROUP BY pid) likes ON posts.id = likes.pid"
+	// "SELECT posts.id, title, descript, uid, username, created_at FROM posts INNER JOIN users ON posts.uid = users.id WHERE posts.id = $1"
 	async findPostById(id) {
 		const { rows } = await db.query(
-			"SELECT posts.id, title, descript, uid, username, created_at FROM posts INNER JOIN users ON posts.uid = users.id WHERE posts.id = $1",
+			"SELECT posts.id, title, descript, uid, likes_count, username, created_at FROM posts LEFT JOIN (SELECT pid, COUNT(*) AS likes_count FROM likes GROUP BY pid) likes ON posts.id = likes.pid INNER JOIN users ON posts.uid = users.id WHERE posts.id = $1",
 			[id]
 		);
 		return rows[0];
@@ -19,7 +20,7 @@ class PostService {
 
 	async findAllPosts(user_id) {
 		const { rows } = await db.query(
-			"SELECT * FROM posts WHERE uid = $1 ORDER BY created_at DESC",
+			"SELECT posts.id, title, descript, uid, likes_count, created_at FROM posts LEFT JOIN (SELECT pid, COUNT(*) AS likes_count FROM likes GROUP BY pid) likes ON posts.id = likes.pid WHERE uid = $1 ORDER BY created_at DESC",
 			[user_id]
 		);
 		return rows;
