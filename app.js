@@ -13,7 +13,9 @@ app.use(cookieParser());
 app.use("/api", router);
 
 app.get("/api", (req, res) => {
-	res.send("welcome to reunion backend task");
+	res.send(
+		"Welcome to REUNION Backend Rask. Please explore all the endpoints."
+	);
 });
 
 const PORT = process.env.PORT || 5000;
