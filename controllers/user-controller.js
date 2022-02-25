@@ -31,7 +31,7 @@ class UserController {
 	async followUser(req, res) {
 		try {
 			const { id } = req.params; // id of user to be followed
-			const { user_id } = req.user; // id of current logged in user
+			const { user_id } = req.user; // id of current logged-in user
 
 			if (id == user_id) {
 				throw new Error("cannot follow yourself");
@@ -59,7 +59,7 @@ class UserController {
 	async unfollowUser(req, res) {
 		try {
 			const { id } = req.params; // id of user to be unfollowed
-			const { user_id } = req.user; // id of current logged in user
+			const { user_id } = req.user; // id of current logged-in user
 
 			if (id == user_id) {
 				throw new Error("cannot unfollow yourself");

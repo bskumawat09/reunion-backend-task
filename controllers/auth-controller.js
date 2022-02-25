@@ -16,7 +16,7 @@ class AuthController {
 			if (!user) {
 				throw new Error("invalid username");
 			}
-
+			// compare the input password and stored password
 			const isMatched = await passwordService.verifyPassword(
 				password,
 				user.password
@@ -24,7 +24,7 @@ class AuthController {
 			if (!isMatched) {
 				throw new Error("invalid password");
 			}
-
+			// genetate jwt token with uid & username as payload and set it as cookie
 			const payload = { user_id: user.id, username: user.username };
 			const token = tokenService.generateToken(payload);
 
@@ -38,7 +38,7 @@ class AuthController {
 				jwt: token
 			});
 		} catch (err) {
-			return res.status(400).json({
+			res.status(400).json({
 				status: "error",
 				message: err.message
 			});
@@ -53,6 +53,7 @@ class AuthController {
 				throw new Error("all fields are required");
 			}
 
+			// hash the password before storing into the database
 			const hashPassword = await bcrypt.hash(password, 12);
 			const user = await userService.insertUser({ username, hashPassword });
 
@@ -60,6 +61,7 @@ class AuthController {
 				user_id: user.id,
 				username: user.username
 			});
+
 			res.cookie("token", token, {
 				maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
 				httpOnly: true
@@ -71,7 +73,7 @@ class AuthController {
 				user
 			});
 		} catch (err) {
-			return res.status(400).json({
+			res.status(400).json({
 				status: "error",
 				message: err.message
 			});

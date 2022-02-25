@@ -3,7 +3,7 @@ const db = require("../db");
 class CommentService {
 	async findComments(id) {
 		const { rows } = await db.query(
-			"SELECT comments.id, text, username, uid, pid, created_at FROM comments INNER JOIN users ON comments.uid = users.id WHERE comments.pid = $1",
+			"SELECT comments.id, text, username, created_at, uid, pid FROM comments INNER JOIN users ON comments.uid = users.id WHERE comments.pid = $1",
 			[id]
 		);
 		return rows;

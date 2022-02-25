@@ -27,13 +27,13 @@ class PostController {
 
 	async deletePost(req, res) {
 		try {
-			const { id } = req.params;
+			const { id } = req.params; // post id
 
 			const post = await postService.findPostById(id);
 			if (!post) {
 				throw new Error("post not found");
 			}
-
+			// if currently logged-in user does not own this post
 			if (post.uid != req.user.user_id) {
 				throw new Error("you are not authorized to perform this operation");
 			}
@@ -54,7 +54,7 @@ class PostController {
 
 	async getPost(req, res) {
 		try {
-			const { id } = req.params;
+			const { id } = req.params; // post id
 
 			const post = await postService.findPostById(id);
 			if (!post) {
@@ -95,7 +95,7 @@ class PostController {
 
 	async likePost(req, res) {
 		try {
-			const { id } = req.params;
+			const { id } = req.params; // post id
 			const { user_id } = req.user;
 
 			const post = await postService.findPostById(id);
@@ -107,7 +107,7 @@ class PostController {
 
 			res.json({
 				status: "success",
-				message: "liked the post",
+				message: `liked the post, ${post.title}`,
 				liked_post: response
 			});
 		} catch (err) {
@@ -120,7 +120,7 @@ class PostController {
 
 	async unlikePost(req, res) {
 		try {
-			const { id } = req.params;
+			const { id } = req.params; // post id
 			const { user_id } = req.user;
 
 			const post = await postService.findPostById(id);
@@ -135,7 +135,7 @@ class PostController {
 
 			res.json({
 				status: "success",
-				message: "unliked the post",
+				message: `unliked the post, ${post.title}`,
 				unliked_post: response
 			});
 		} catch (err) {

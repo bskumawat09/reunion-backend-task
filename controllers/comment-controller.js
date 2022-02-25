@@ -3,8 +3,8 @@ const commentService = require("../services/comment-service");
 class CommentController {
 	async addComment(req, res) {
 		try {
-			const { id } = req.params;
-			const { user_id } = req.user;
+			const { id } = req.params; // post id
+			const { user_id } = req.user; // current logged-in user
 			const { text } = req.body;
 
 			const comment = await commentService.insertComment({
@@ -12,6 +12,7 @@ class CommentController {
 				user_id,
 				text
 			});
+
 			res.json({
 				status: "success",
 				comment

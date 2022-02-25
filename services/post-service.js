@@ -11,7 +11,7 @@ class PostService {
 
 	async findPostById(id) {
 		const { rows } = await db.query(
-			"SELECT posts.id, title, descript, uid, likes_count, username, created_at FROM posts LEFT JOIN (SELECT pid, COUNT(*) AS likes_count FROM likes GROUP BY pid) likes ON posts.id = likes.pid INNER JOIN users ON posts.uid = users.id WHERE posts.id = $1",
+			"SELECT posts.id, title, descript, likes_count, uid, username, created_at FROM posts LEFT JOIN (SELECT pid, COUNT(*) AS likes_count FROM likes GROUP BY pid) likes ON posts.id = likes.pid INNER JOIN users ON posts.uid = users.id WHERE posts.id = $1",
 			[id]
 		);
 		return rows[0];
