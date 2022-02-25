@@ -28,7 +28,11 @@ class PostController {
 	async deletePost(req, res) {
 		try {
 			const { id } = req.params;
+
 			const post = await postService.findPostById(id);
+			if (!post) {
+				throw new Error("post not found");
+			}
 
 			if (post.uid != req.user.user_id) {
 				throw new Error("you are not authorized to perform this operation");
@@ -38,7 +42,7 @@ class PostController {
 
 			res.json({
 				status: "success",
-				post
+				post: post.title
 			});
 		} catch (err) {
 			res.status(400).json({

@@ -4,8 +4,9 @@ class UserService {
 	async findUser({ id, username }) {
 		let result;
 		if (id) {
+			// SELECT users.id, username, followers, password FROM users LEFT JOIN (SELECT followee_id AS uid, COUNT(follower_id) AS followers FROM follows GROUP BY uid) follows ON follows.uid = users.id WHERE users.id = $1
 			const { rows } = await db.query(
-				"SELECT users.id, username, followers, password FROM users LEFT JOIN (SELECT followee_id AS uid, COUNT(follower_id) AS followers FROM follows GROUP BY uid) follows ON follows.uid = users.id WHERE users.id = $1",
+				"SELECT * FROM users WHERE users.id = $1",
 				[id]
 			);
 			result = rows[0];

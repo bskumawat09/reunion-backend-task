@@ -35,8 +35,7 @@ class AuthController {
 
 			res.json({
 				status: "success",
-				jwt: token,
-				user
+				jwt: token
 			});
 		} catch (err) {
 			return res.status(400).json({
