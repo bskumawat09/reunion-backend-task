@@ -68,7 +68,10 @@ class PostController {
 				post
 			});
 		} catch (err) {
-			console.log(err.message);
+			res.status(400).json({
+				status: "error",
+				message: err.message
+			});
 		}
 	}
 
@@ -83,7 +86,10 @@ class PostController {
 				posts
 			});
 		} catch (err) {
-			console.log(err.message);
+			res.status(400).json({
+				status: "error",
+				message: err.message
+			});
 		}
 	}
 

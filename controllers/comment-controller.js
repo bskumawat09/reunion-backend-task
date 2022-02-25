@@ -5,7 +5,6 @@ class CommentController {
 		try {
 			const { id } = req.params;
 			const { user_id } = req.user;
-
 			const { text } = req.body;
 
 			const comment = await commentService.insertComment({
