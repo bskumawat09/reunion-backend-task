@@ -14,7 +14,7 @@ app.use("/api", router);
 
 app.get("/api", (req, res) => {
 	res.send(
-		"Welcome to REUNION Backend Rask. Please explore all the endpoints."
+		"Welcome to REUNION Backend Task. Please explore all the endpoints."
 	);
 });
 
